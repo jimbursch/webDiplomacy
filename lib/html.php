@@ -294,18 +294,18 @@ class libHTML
 		else
 			return $output;
 	}
-	
-	
+
+
 	public static function threadLink($postID) {
 		global $DB;
-	
+
 		$postID = (int)$postID;
-	
+
 		list($toID) = $DB->sql_row("SELECT toID FROM wD_ForumMessages WHERE id=".$postID);
-	
+
 		if( $toID == null || $toID == 0 )
 		$toID = $postID;
-	
+
 		return '<a href="forum.php?threadID='.$toID.'#'.$postID.'">'.l_t('Go to thread').'</a>';
 	}
 	static function admincpType($actionType, $id)
@@ -376,8 +376,8 @@ class libHTML
 
 		/*
 		 * This line when included in the header caused certain translated hyphenated letters to come out as black diamonds with question marks.
-		 * 
-		
+		 *
+
 		*/
 		return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -602,6 +602,7 @@ class libHTML
 		// Items not displayed on the menu
 		$links['map.php']=array('name'=>'Map', 'inmenu'=>FALSE);
 		$links['faq.php']=array('name'=>'FAQ', 'inmenu'=>FALSE);
+		$links['glossary.php']=array('name'=>'Glossary', 'inmenu'=>FALSE);
 		$links['rules.php']=array('name'=>'Rules', 'inmenu'=>FALSE);
 		$links['intro.php']=array('name'=>'Intro', 'inmenu'=>FALSE);
 		$links['credits.php']=array('name'=>'Credits', 'inmenu'=>FALSE);
@@ -736,7 +737,7 @@ class libHTML
 			{
 				print self::footerDebugData();
 			}
-			
+
 			print self::footerScripts();
 		}
 		else
@@ -749,21 +750,21 @@ class libHTML
 
 		close();
 	}
-	
+
 	private static function footerDebugData() {
 		global $Locale, $DB;
-		
+
 		$buf = '';
 		if( is_object($DB) )
 			$buf .= $DB->profilerPrint();
-		
+
 		if( is_object($Locale) )
 		{
 			$buf .= '<br /><strong>Missed localization lookups:</strong><br />';
 			foreach($Locale->failedLookups as $failedText)
 				$buf .= htmlentities($failedText).'<br />';
 		}
-		
+
 		return $buf;
 	}
 
@@ -875,13 +876,13 @@ class libHTML
 
 	public static $footerScript=array();
 	public static $footerIncludes=array();
-	
+
 	public static function likeCount($likeCount) {
 		if($likeCount==0) return '';
 		//return ' <span class="likeCount">('.$likeCount.' like'.($likeCount>1?'s':'').')</span>';
 		return ' <span class="likeCount">(+'.$likeCount.')</span>';
 	}
-	
+
 	static private function footerScripts() {
 		global $User, $Locale;
 
@@ -922,10 +923,10 @@ class libHTML
 				libHTML::$footerScript[]=l_jf('setForumParticipatedIcons').'();';
 			}
 		}
-		
+
 		if( is_object($Locale) )
 			$Locale->onFinish();
-		
+
 		// Add the javascript includes:
 		$footerIncludes = array();
 		$footerIncludes[] = l_j('../locales/layer.js');
@@ -935,7 +936,7 @@ class libHTML
 		$footerIncludes[] = l_j('cacheUpdate.js');
 		$footerIncludes[] = l_j('timeHandler.js');
 		$footerIncludes[] = l_j('forum.js');
-		
+
 		// Don't localize all the footer includes here, as some of them may be dynamically generated
 		foreach( array_merge($footerIncludes,self::$footerIncludes) as $includeJS ) // Add on the dynamically added includes
 			$buf .= '<script type="text/javascript" src="'.STATICSRV.JSDIR.'/'.$includeJS.'"></script>';
@@ -953,25 +954,25 @@ class libHTML
 				this.token="'.md5(Config::$secret.$User->id.'Array').'";
 			}
 			User = new UserClass();
-			
+
 			WEBDIP_DEBUG='.(Config::$debug ? 'true':'false').';
 
 			document.observe("dom:loaded", function() {
-			
+
 				try {
 					'.l_jf('Locale.onLoad').'();
-					
+
 					'.l_jf('onlineUsers.push').'(User.id);
-	
+
 					'.l_jf('setUserOnlineIcons').'();
 					'.l_jf('setForumMessageIcons').'();
 					'.l_jf('setPostsItalicized').'();
 					'.l_jf('updateTimestamps').'();
 					'.l_jf('updateUTCOffset').'();
 					'.l_jf('updateTimers').'();
-	
+
 					'.implode("\n", self::$footerScript).'
-					
+
 					'.l_jf('Locale.afterLoad').'();
 				}
 				catch( e ) {
@@ -980,7 +981,7 @@ class libHTML
 			}, this);
 		</script>
 		';
-		
+
 		if( Config::$debug )
 			$buf .= '<br /><strong>JavaScript localization lookup failures:</strong><br /><span id="jsLocalizationDebug"></span>';
 

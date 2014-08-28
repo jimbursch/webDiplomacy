@@ -36,6 +36,9 @@ and the rules of webDiplomacy.</li>
 <li><a href="faq.php">FAQ</a></li>
 <li class="formlistdesc">The webDiplomacy FAQ.</li>
 
+<li><a href="glossary.php">Glossary</a></li>
+<li class="formlistdesc">Commonly used terms and their definition. </li>
+
 <li><a href="rules.php">Rulebook</a></li>
 <li class="formlistdesc">The webDiplomacy rulebook.</li>
 
